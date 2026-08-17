@@ -1,0 +1,264 @@
+/* karakuri-hako — 木と真鍮の玩具箱。JavaScript ゼロ(F-01)。
+   状態は .stage 直下の input が持ち、機構は全て後続兄弟セレクタで駆動する(F-02)。 */
+:root {
+  color-scheme: dark;
+  --bg: #14100c;
+  --room: #1c1611;
+  --shelf: #241b13;
+  --wood: #3a2c1e;
+  --wood-hi: #58432c;
+  --washi: #efe6d4;
+  --washi-dim: #cbbfa8;
+  --muted: #93866f;
+  --brass: #c9a35c;
+  --brass-hi: #e6c98b;
+  --brass-dk: #8a6a34;
+  --vermilion: #c4573c;
+  --ink: #191512;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--room), var(--bg) 70%);
+  color: var(--washi);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  min-height: 100dvh;
+}
+
+.hall { max-width: 880px; margin: 0 auto; padding: 40px 16px 56px; }
+
+/* ---------------------------------------------------------------- 看板 */
+
+.masthead { text-align: center; margin-bottom: 28px; }
+.eyebrow {
+  color: var(--brass);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+h1 {
+  font-size: 2.1rem;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  margin: 8px 0 10px;
+  color: var(--washi);
+  text-shadow: 0 2px 12px rgba(201, 163, 92, 0.25);
+}
+.lede {
+  color: var(--washi-dim);
+  font-size: 0.92rem;
+  max-width: 40em;
+  margin: 0 auto;
+  line-height: 1.9;
+}
+
+/* ---------------------------------------------------------------- 舞台と状態 */
+
+/* 状態入力: 視覚上は隠すがフォーカス可能のまま(F-07・T-060) */
+.stage > input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.exhibits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 680px) { .exhibits { grid-template-columns: 1fr; } }
+
+.tana {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.18)),
+    var(--shelf);
+  border: 1px solid var(--wood);
+  border-radius: 10px;
+  padding: 16px 16px 14px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.fuda {
+  justify-self: center;
+  background: linear-gradient(180deg, var(--wood-hi), var(--wood));
+  color: var(--washi);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  padding: 5px 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.scene {
+  background:
+    radial-gradient(100% 80% at 50% 10%, rgba(230, 201, 139, 0.06), transparent 60%),
+    var(--ink);
+  border: 1px solid var(--wood);
+  border-radius: 8px;
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.caption {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+
+.noren { color: var(--muted); letter-spacing: 0.2em; }
+
+/* ---------------------------------------------------------------- レバー */
+
+.lever {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--washi-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid var(--wood);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+  user-select: none;
+}
+.lever:hover { color: var(--brass-hi); border-color: var(--brass-dk); }
+
+.lever-slot {
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  border: 1px solid var(--wood-hi);
+  position: relative;
+}
+.lever-arm {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--brass-hi), var(--brass-dk));
+  transition: transform 0.25s;
+}
+#lever-gear:checked ~ .exhibits label[for="lever-gear"] .lever-arm { transform: translateX(16px); }
+#lever-gear:focus-visible ~ .exhibits label[for="lever-gear"] {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------- 歯車からくり(F-03)
+   周期は SPEC §2: 歯数 8/12/24 → 3s / 4.5s / 9s(歯数に比例)・隣接は逆回転 */
+
+.gear-scene { gap: 0; }
+
+.gear {
+  border-radius: 50%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  animation: spin var(--dur) linear infinite;
+  animation-play-state: paused;
+}
+.gear::before {
+  /* 歯: repeating-conic-gradient。歯数 n → 周期 360/n 度 */
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: var(--tooth-pattern);
+  -webkit-mask: radial-gradient(circle, transparent 58%, #000 59%);
+  mask: radial-gradient(circle, transparent 58%, #000 59%);
+}
+.gear::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.22), transparent 45%),
+    radial-gradient(circle, var(--brass) 0 30%, var(--brass-dk) 72%, #6d5228 100%);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35), 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+.hub {
+  position: relative;
+  z-index: 1;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+  color: var(--brass-hi);
+  font-size: 0.8rem;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.gear-a {
+  width: 58px;
+  height: 58px;
+  --dur: 3s;
+  --tooth-pattern: repeating-conic-gradient(var(--brass-dk) 0deg 21deg, transparent 21deg 45deg);
+}
+.gear-b {
+  width: 87px;
+  height: 87px;
+  --dur: 4.5s;
+  animation-direction: reverse;
+  --tooth-pattern: repeating-conic-gradient(var(--brass-dk) 0deg 14deg, transparent 14deg 30deg);
+  margin-left: -4px;
+}
+.gear-c {
+  width: 174px;
+  height: 174px;
+  --dur: 9s;
+  --tooth-pattern: repeating-conic-gradient(var(--brass-dk) 0deg 7deg, transparent 7deg 15deg);
+  margin-left: -4px;
+}
+
+#lever-gear:checked ~ .exhibits .gear { animation-play-state: running; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------------- フッタ */
+
+.footer {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--wood);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+.footer a { color: var(--washi-dim); text-decoration: none; border-bottom: 1px solid var(--wood-hi); }
+.footer a:hover { color: var(--brass-hi); border-color: var(--brass); }
+.fsep { margin: 0 4px; opacity: 0.6; }
+
+/* ---------------------------------------------------------------- reduced motion(N-03) */
+
+@media (prefers-reduced-motion: reduce) {
+  .gear { animation: none; }
+  .lever-arm { transition: none; }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>karakuri-hako — からくり箱</title>
+  <meta name="description" content="JavaScript を 1 行も使わない、HTML と CSS だけで動くからくり玩具箱">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%99%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="hall">
+    <header class="masthead">
+      <p class="eyebrow">JavaScript ゼロ — HTML と CSS だけで動く</p>
+      <h1>からくり箱</h1>
+      <p class="lede">スクリプトを 1 行も積んでいない、正真正銘の「ゼロコード」からくり玩具。レバーも歯車も錠前も、チェックボックスとスタイルシートだけで動いています。</p>
+    </header>
+
+    <div class="stage">
+      <input type="checkbox" id="lever-gear">
+
+      <div class="exhibits">
+        <section class="tana">
+          <h2 class="fuda">歯車からくり</h2>
+          <div class="scene gear-scene">
+            <div class="gear gear-a"><span class="hub">8</span></div>
+            <div class="gear gear-b"><span class="hub">12</span></div>
+            <div class="gear gear-c"><span class="hub">24</span></div>
+          </div>
+          <label class="lever" for="lever-gear"><span class="lever-slot"><span class="lever-arm"></span></span>動かす</label>
+          <p class="caption">歯数 8・12・24 の歯車列。大きい歯車ほどゆっくり、隣どうしは逆回りに噛み合います。</p>
+        </section>
+
+        <section class="tana closed">
+          <h2 class="fuda">仕込み中</h2>
+          <div class="scene"><p class="noren">仕掛けを 仕込んでいます</p></div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="footer" id="footer"></footer>
+  </main>
+</body>
+</html>

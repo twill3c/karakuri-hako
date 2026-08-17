@@ -1,0 +1,9 @@
+{
+  "name": "karakuri-hako-devtools",
+  "private": true,
+  "description": "開発時検査ツールのみ。出荷物は web/(HTML+CSS)だけ",
+  "devDependencies": {
+    "playwright": "^1.49.0",
+    "html-validate": "^8.24.0"
+  }
+}
