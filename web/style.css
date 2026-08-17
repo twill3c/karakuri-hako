@@ -14,6 +14,9 @@
   --brass-hi: #e6c98b;
   --brass-dk: #8a6a34;
   --vermilion: #c4573c;
+  --take: #6f8f5a;
+  --take-dk: #46603a;
+  --mizu: #a8c8dc;
   --ink: #191512;
 }
 
@@ -119,8 +122,6 @@ h1 {
   font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
 }
 
-.noren { color: var(--muted); letter-spacing: 0.2em; }
-
 /* ---------------------------------------------------------------- レバー */
 
 .lever {
@@ -160,8 +161,26 @@ h1 {
   background: radial-gradient(circle at 35% 30%, var(--brass-hi), var(--brass-dk));
   transition: transform 0.25s;
 }
-#lever-gear:checked ~ .exhibits label[for="lever-gear"] .lever-arm { transform: translateX(16px); }
-#lever-gear:focus-visible ~ .exhibits label[for="lever-gear"] {
+#lever-gear:checked ~ .exhibits label[for="lever-gear"] .lever-arm,
+#cup:checked ~ .exhibits label[for="cup"] .lever-arm,
+#lever-shishi:checked ~ .exhibits label[for="lever-shishi"] .lever-arm { transform: translateX(16px); }
+
+/* キーボード操作の可視化(F-07): 各 input のフォーカスを対応 label に映す */
+#lever-gear:focus-visible ~ .exhibits label[for="lever-gear"],
+#cup:focus-visible ~ .exhibits label[for="cup"],
+#lever-shishi:focus-visible ~ .exhibits label[for="lever-shishi"],
+#d1-matsu:focus-visible ~ .exhibits label[for="d1-matsu"],
+#d1-take:focus-visible ~ .exhibits label[for="d1-take"],
+#d1-ume:focus-visible ~ .exhibits label[for="d1-ume"],
+#d1-tsuru:focus-visible ~ .exhibits label[for="d1-tsuru"],
+#d2-matsu:focus-visible ~ .exhibits label[for="d2-matsu"],
+#d2-take:focus-visible ~ .exhibits label[for="d2-take"],
+#d2-ume:focus-visible ~ .exhibits label[for="d2-ume"],
+#d2-tsuru:focus-visible ~ .exhibits label[for="d2-tsuru"],
+#d3-matsu:focus-visible ~ .exhibits label[for="d3-matsu"],
+#d3-take:focus-visible ~ .exhibits label[for="d3-take"],
+#d3-ume:focus-visible ~ .exhibits label[for="d3-ume"],
+#d3-tsuru:focus-visible ~ .exhibits label[for="d3-tsuru"] {
   outline: 2px solid var(--brass);
   outline-offset: 3px;
 }
@@ -237,9 +256,417 @@ h1 {
   margin-left: -4px;
 }
 
+/* 一の印: 回すと大歯車の刻印が現れる(F-06 ヒント) */
+.kokuin {
+  position: absolute;
+  z-index: 1;
+  bottom: 16%;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 1.2s;
+}
+#lever-gear:checked ~ .exhibits .kokuin { opacity: 0.85; }
+
 #lever-gear:checked ~ .exhibits .gear { animation-play-state: running; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------------- 茶運び人形(F-04) */
+
+.doll-scene { justify-content: flex-start; padding-left: 22px; }
+
+.shelf-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 32px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wood-hi) 12%, var(--wood-hi) 88%, transparent);
+}
+
+/* 二の印: 人形が去ると床の間の掛け軸が見える */
+.kakejiku {
+  position: absolute;
+  left: 26px;
+  top: 18px;
+  width: 36px;
+  height: 82px;
+  background: linear-gradient(180deg, var(--washi), var(--washi-dim));
+  border-top: 4px solid var(--wood-hi);
+  border-bottom: 4px solid var(--wood-hi);
+  border-radius: 2px;
+  display: grid;
+  place-items: center;
+  color: var(--vermilion);
+  font-size: 1.3rem;
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  opacity: 0;
+  transition: opacity 1.2s 1.2s;
+}
+#cup:checked ~ .exhibits .kakejiku { opacity: 1; }
+
+.doll {
+  position: relative;
+  z-index: 2;
+  width: 46px;
+  height: 96px;
+  margin-bottom: 34px;
+  align-self: flex-end;
+  transform-origin: 50% 100%;
+}
+.doll-head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #241c14 0 40%, var(--washi) 40%);
+}
+.doll-body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+  width: 46px;
+  height: 68px;
+  background:
+    linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.28) 42% 54%, transparent 54%),
+    linear-gradient(180deg, var(--vermilion), #8f3c28);
+  border-radius: 10px 10px 6px 6px;
+  clip-path: polygon(18% 0, 82% 0, 100% 100%, 0 100%);
+}
+.doll-tray {
+  position: absolute;
+  top: 34px;
+  right: -16px;
+  width: 26px;
+  height: 5px;
+  background: linear-gradient(180deg, var(--brass-hi), var(--brass-dk));
+  border-radius: 2px;
+}
+.chawan {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  translate: -50% 0;
+  width: 14px;
+  height: 8px;
+  background: linear-gradient(180deg, #7a9c8e, #4c6a5e);
+  border-radius: 0 0 7px 7px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#cup:checked ~ .exhibits .chawan { opacity: 1; }
+#cup:checked ~ .exhibits .doll { animation: journey 5s ease-in-out forwards; }
+
+@keyframes journey {
+  0% { transform: translateX(0); }
+  55% { transform: translateX(140px) rotate(0deg); }
+  62% { transform: translateX(140px) rotate(0deg); }
+  72% { transform: translateX(140px) rotate(12deg); }
+  82% { transform: translateX(140px) rotate(0deg); }
+  100% { transform: translateX(140px); }
+}
+
+/* ---------------------------------------------------------------- ししおどし(F-05) */
+
+.shishi-scene { background:
+  radial-gradient(100% 60% at 70% 100%, rgba(111, 143, 90, 0.12), transparent 60%),
+  var(--ink);
+}
+
+.kakehi {
+  position: absolute;
+  top: 34px;
+  left: 8%;
+  width: 96px;
+  height: 11px;
+  background: linear-gradient(180deg, var(--take), var(--take-dk));
+  border-radius: 6px;
+  transform: rotate(-7deg);
+}
+.kakehi::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -1px;
+  width: 10px;
+  height: 13px;
+  background: #2c3d26;
+  border-radius: 2px;
+}
+
+.stream {
+  position: absolute;
+  top: 46px;
+  left: calc(8% + 92px);
+  width: 3px;
+  height: 52px;
+  background: linear-gradient(180deg, rgba(168, 200, 220, 0), var(--mizu));
+  animation: pour 0.9s linear infinite;
+}
+@keyframes pour {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+  100% { opacity: 0.45; }
+}
+
+.shishi-pipe {
+  position: absolute;
+  top: 104px;
+  left: 34%;
+  width: 118px;
+  height: 15px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(0, 0, 0, 0.3) 46% 48%, transparent 48%, transparent 72%, rgba(0, 0, 0, 0.3) 72% 74%, transparent 74%),
+    linear-gradient(180deg, var(--take), var(--take-dk));
+  border-radius: 8px;
+  transform-origin: 55% 50%;
+  animation: shishi 4s ease-in-out infinite;
+}
+.stand {
+  position: absolute;
+  top: 110px;
+  left: calc(34% + 60px);
+  width: 8px;
+  height: 48px;
+  background: linear-gradient(180deg, var(--take-dk), #33452c);
+  border-radius: 3px;
+}
+.shishi-pipe::after {
+  /* 口の斜め切り */
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: -1px;
+  width: 12px;
+  height: 17px;
+  background: #2c3d26;
+  border-radius: 3px;
+  transform: skewY(-18deg);
+}
+
+@keyframes shishi {
+  0%, 55% { transform: rotate(8deg); }
+  63%, 71% { transform: rotate(-24deg); }
+  79% { transform: rotate(11deg); }
+  87%, 100% { transform: rotate(8deg); }
+}
+
+.ishi {
+  position: absolute;
+  bottom: 16px;
+  left: 24%;
+  width: 52px;
+  height: 28px;
+  background: radial-gradient(ellipse at 40% 26%, #6d675e, #3c3832 70%);
+  border-radius: 50% 50% 44% 44%;
+}
+/* 三の印: 水を止めると濡れていた紋が乾いて浮かぶ */
+.ishi-mon {
+  position: absolute;
+  bottom: 20px;
+  left: calc(24% + 15px);
+  color: var(--washi-dim);
+  font-size: 0.95rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 1.4s 0.6s;
+}
+#lever-shishi:checked ~ .exhibits .ishi-mon { opacity: 0.9; }
+
+#lever-shishi:checked ~ .exhibits .shishi-pipe,
+#lever-shishi:checked ~ .exhibits .stream { animation-play-state: paused; }
+#lever-shishi:checked ~ .exhibits .stream { opacity: 0.15; }
+
+/* ---------------------------------------------------------------- 家紋錠(F-06) */
+
+.lock-tana { grid-column: 1 / -1; }
+
+.lock-scene { min-height: 220px; perspective: 720px; }
+
+.hako { position: relative; width: 240px; height: 138px; }
+
+.hako-face {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50px;
+  bottom: 0;
+  background:
+    linear-gradient(90deg, var(--brass-dk) 0 6px, transparent 6px calc(100% - 6px), var(--brass-dk) calc(100% - 6px)),
+    linear-gradient(180deg, var(--wood-hi), var(--wood));
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+.hako-face::after {
+  /* 前面の錠飾り */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--brass-hi), var(--brass-dk));
+  box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.25);
+}
+
+.takara {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  translate: -50% 0;
+  z-index: 3;
+  color: var(--brass-hi);
+  font-size: 2.6rem;
+  font-weight: 700;
+  text-shadow: 0 0 18px rgba(230, 201, 139, 0.85), 0 0 44px rgba(230, 201, 139, 0.4);
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s 0.45s, transform 0.9s 0.45s;
+}
+
+.lid {
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: 0;
+  height: 52px;
+  background:
+    linear-gradient(90deg, var(--brass-dk) 0 8px, transparent 8px calc(100% - 8px), var(--brass-dk) calc(100% - 8px)),
+    linear-gradient(180deg, #63492e, var(--wood-hi));
+  border-radius: 8px 8px 0 0;
+  border-bottom: 3px solid var(--brass-dk);
+  transform-origin: 50% 0;
+  transition: transform 1s cubic-bezier(0.2, 0.75, 0.25, 1);
+  z-index: 2;
+}
+
+#d1-tsuru:checked ~ #d2-matsu:checked ~ #d3-ume:checked ~ .exhibits .lid {
+  transform: rotateX(-74deg);
+}
+#d1-tsuru:checked ~ #d2-matsu:checked ~ #d3-ume:checked ~ .exhibits .takara {
+  opacity: 1;
+  transform: translateY(0);
+}
+#d1-tsuru:checked ~ #d2-matsu:checked ~ #d3-ume:checked ~ .exhibits .hako-face {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5), 0 -6px 30px rgba(230, 201, 139, 0.25);
+}
+
+/* ヒント札(T-051): 各からくりの操作で 1 枚ずつ現れる */
+.hints {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hint {
+  visibility: hidden;
+  background: var(--ink);
+  border: 1px dashed var(--brass-dk);
+  color: var(--brass-hi);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  padding: 3px 12px;
+  border-radius: 4px;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+#lever-gear:checked ~ .exhibits .hint-1 { visibility: visible; }
+#cup:checked ~ .exhibits .hint-2 { visibility: visible; }
+#lever-shishi:checked ~ .exhibits .hint-3 { visibility: visible; }
+
+/* ダイヤル */
+.dials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 560px) { .dials { grid-template-columns: 1fr; } }
+
+.dial {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  background: var(--ink);
+  border: 1px solid var(--wood);
+  border-radius: 8px;
+  padding: 12px;
+}
+.dial-title {
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+.dial-face {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--brass-hi), var(--brass) 55%, var(--brass-dk));
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.25), 0 3px 8px rgba(0, 0, 0, 0.4);
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.k {
+  position: absolute;
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#d1-matsu:checked ~ .exhibits .dial-1 .k-matsu,
+#d1-take:checked ~ .exhibits .dial-1 .k-take,
+#d1-ume:checked ~ .exhibits .dial-1 .k-ume,
+#d1-tsuru:checked ~ .exhibits .dial-1 .k-tsuru,
+#d2-matsu:checked ~ .exhibits .dial-2 .k-matsu,
+#d2-take:checked ~ .exhibits .dial-2 .k-take,
+#d2-ume:checked ~ .exhibits .dial-2 .k-ume,
+#d2-tsuru:checked ~ .exhibits .dial-2 .k-tsuru,
+#d3-matsu:checked ~ .exhibits .dial-3 .k-matsu,
+#d3-take:checked ~ .exhibits .dial-3 .k-take,
+#d3-ume:checked ~ .exhibits .dial-3 .k-ume,
+#d3-tsuru:checked ~ .exhibits .dial-3 .k-tsuru { opacity: 1; }
+
+.dial-opts { display: flex; gap: 6px; }
+.dial-opts label {
+  min-width: 36px;
+  min-height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--wood-hi);
+  border-radius: 6px;
+  color: var(--washi-dim);
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+}
+.dial-opts label:hover { border-color: var(--brass); color: var(--brass-hi); }
+#d1-matsu:checked ~ .exhibits label[for="d1-matsu"],
+#d1-take:checked ~ .exhibits label[for="d1-take"],
+#d1-ume:checked ~ .exhibits label[for="d1-ume"],
+#d1-tsuru:checked ~ .exhibits label[for="d1-tsuru"],
+#d2-matsu:checked ~ .exhibits label[for="d2-matsu"],
+#d2-take:checked ~ .exhibits label[for="d2-take"],
+#d2-ume:checked ~ .exhibits label[for="d2-ume"],
+#d2-tsuru:checked ~ .exhibits label[for="d2-tsuru"],
+#d3-matsu:checked ~ .exhibits label[for="d3-matsu"],
+#d3-take:checked ~ .exhibits label[for="d3-take"],
+#d3-ume:checked ~ .exhibits label[for="d3-ume"],
+#d3-tsuru:checked ~ .exhibits label[for="d3-tsuru"] {
+  border-color: var(--brass);
+  color: var(--brass-hi);
+  background: rgba(201, 163, 92, 0.12);
+}
 
 /* ---------------------------------------------------------------- フッタ */
 
@@ -256,9 +683,11 @@ h1 {
 .footer a:hover { color: var(--brass-hi); border-color: var(--brass); }
 .fsep { margin: 0 4px; opacity: 0.6; }
 
-/* ---------------------------------------------------------------- reduced motion(N-03) */
+/* ---------------------------------------------------------------- reduced motion(N-03)
+   常時ループは静止し、状態遷移は即時反映になる */
 
 @media (prefers-reduced-motion: reduce) {
-  .gear { animation: none; }
-  .lever-arm { transition: none; }
+  .gear, .shishi-pipe, .stream, .doll { animation: none; }
+  .lever-arm, .lid, .takara, .kakejiku, .kokuin, .ishi-mon, .chawan, .k { transition: none; }
+  #cup:checked ~ .exhibits .doll { transform: translateX(140px); }
 }

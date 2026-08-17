@@ -1,0 +1,11 @@
+{"v": "1.2", "ts": "2026-08-17T09:18:59+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "loop_start", "data": {"goal": "茶運び人形(F-04)+ ししおどし(F-05)+ 家紋錠とヒント開示(F-06)+ reduced-motion(N-03)", "spec_refs": ["F-04", "F-05", "F-06", "N-03"], "scaffold_version": "1.8.0", "agent": "claude-code"}}
+{"v": "1.2", "ts": "2026-08-17T09:18:59+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 1, "stage_name": "計画", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-17T09:19:00+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 2, "stage_name": "文脈読込", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-17T09:22:20+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "test_run", "data": {"command": "node tests/drive.mjs", "passed": 15, "failed": 12}}
+{"v": "1.2", "ts": "2026-08-17T09:22:20+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 3, "stage_name": "テスト先行", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-17T09:26:32+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "failure", "data": {"code": "VERIF-FALSE", "severity": "S3", "detected_stage": 4, "summary": "T-050 が蓋の transition(1s)と組替え途中の一時的正解状態を考慮せず、遷移中 transform を開と誤判定", "resolution": "test_fix"}}
+{"v": "1.2", "ts": "2026-08-17T09:29:22+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "test_run", "data": {"command": "node tests/drive.mjs", "passed": 27, "failed": 0}}
+{"v": "1.2", "ts": "2026-08-17T09:29:22+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "test_run", "data": {"command": "python scripts/verify.py", "passed": 3, "failed": 0}}
+{"v": "1.2", "ts": "2026-08-17T09:29:22+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 4, "stage_name": "実装", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-17T09:29:23+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 5, "stage_name": "検証", "result": "pass"}}
+{"v": "1.2", "ts": "2026-08-17T09:29:23+09:00", "project": "karakuri-hako", "loop_id": "loop_002", "event": "stage_end", "data": {"stage": 6, "stage_name": "文書同期", "result": "pass"}}

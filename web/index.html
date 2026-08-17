@@ -13,11 +13,25 @@
     <header class="masthead">
       <p class="eyebrow">JavaScript ゼロ — HTML と CSS だけで動く</p>
       <h1>からくり箱</h1>
-      <p class="lede">スクリプトを 1 行も積んでいない、正真正銘の「ゼロコード」からくり玩具。レバーも歯車も錠前も、チェックボックスとスタイルシートだけで動いています。</p>
+      <p class="lede">スクリプトを 1 行も積んでいない、正真正銘の「ゼロコード」からくり玩具。レバーも歯車も錠前も、チェックボックスとスタイルシートだけで動いています。三つのからくりを動かして印を集め、家紋錠を開けてください。</p>
     </header>
 
     <div class="stage">
       <input type="checkbox" id="lever-gear">
+      <input type="checkbox" id="cup">
+      <input type="checkbox" id="lever-shishi">
+      <input type="radio" name="d1" id="d1-matsu">
+      <input type="radio" name="d1" id="d1-take" checked>
+      <input type="radio" name="d1" id="d1-ume">
+      <input type="radio" name="d1" id="d1-tsuru">
+      <input type="radio" name="d2" id="d2-matsu">
+      <input type="radio" name="d2" id="d2-take" checked>
+      <input type="radio" name="d2" id="d2-ume">
+      <input type="radio" name="d2" id="d2-tsuru">
+      <input type="radio" name="d3" id="d3-matsu">
+      <input type="radio" name="d3" id="d3-take" checked>
+      <input type="radio" name="d3" id="d3-ume">
+      <input type="radio" name="d3" id="d3-tsuru">
 
       <div class="exhibits">
         <section class="tana">
@@ -25,15 +39,79 @@
           <div class="scene gear-scene">
             <div class="gear gear-a"><span class="hub">8</span></div>
             <div class="gear gear-b"><span class="hub">12</span></div>
-            <div class="gear gear-c"><span class="hub">24</span></div>
+            <div class="gear gear-c"><span class="hub">24</span><span class="kokuin">鶴</span></div>
           </div>
           <label class="lever" for="lever-gear"><span class="lever-slot"><span class="lever-arm"></span></span>動かす</label>
-          <p class="caption">歯数 8・12・24 の歯車列。大きい歯車ほどゆっくり、隣どうしは逆回りに噛み合います。</p>
+          <p class="caption">歯数 8・12・24 の歯車列。大きい歯車ほどゆっくり、隣どうしは逆回りに噛み合います。回すと、大歯車の刻印が読めるはず。</p>
         </section>
 
-        <section class="tana closed">
-          <h2 class="fuda">仕込み中</h2>
-          <div class="scene"><p class="noren">仕掛けを 仕込んでいます</p></div>
+        <section class="tana">
+          <h2 class="fuda">茶運び人形</h2>
+          <div class="scene doll-scene">
+            <div class="doll">
+              <span class="doll-head"></span>
+              <span class="doll-body"></span>
+              <span class="doll-tray"><span class="chawan"></span></span>
+            </div>
+            <span class="shelf-line"></span>
+            <span class="kakejiku">松</span>
+          </div>
+          <label class="lever" for="cup"><span class="lever-slot"><span class="lever-arm"></span></span>茶碗を置く</label>
+          <p class="caption">盆に茶碗を置くと歩き出し、届け先でお辞儀をします。人形が去った床の間に、掛け軸が見えるでしょう。</p>
+        </section>
+
+        <section class="tana">
+          <h2 class="fuda">ししおどし</h2>
+          <div class="scene shishi-scene">
+            <span class="kakehi"></span>
+            <span class="stream"></span>
+            <span class="stand"></span>
+            <div class="shishi-pipe"></div>
+            <span class="ishi"></span>
+            <span class="ishi-mon">梅</span>
+          </div>
+          <label class="lever" for="lever-shishi"><span class="lever-slot"><span class="lever-arm"></span></span>水を止める</label>
+          <p class="caption">竹筒に水が溜まると、こつんと石を打って戻ります。水を止めると、濡れていた石の紋が乾いて浮かびます。</p>
+        </section>
+
+        <section class="tana lock-tana">
+          <h2 class="fuda">家紋錠</h2>
+          <div class="scene lock-scene">
+            <div class="hako">
+              <div class="takara">鶴</div>
+              <div class="lid"></div>
+              <div class="hako-face"></div>
+            </div>
+          </div>
+          <div class="hints">
+            <span class="hint hint-1">一の印 — 鶴</span>
+            <span class="hint hint-2">二の印 — 松</span>
+            <span class="hint hint-3">三の印 — 梅</span>
+          </div>
+          <div class="dials">
+            <div class="dial dial-1">
+              <span class="dial-title">一の輪</span>
+              <span class="dial-face"><span class="k k-matsu">松</span><span class="k k-take">竹</span><span class="k k-ume">梅</span><span class="k k-tsuru">鶴</span></span>
+              <div class="dial-opts">
+                <label for="d1-matsu">松</label><label for="d1-take">竹</label><label for="d1-ume">梅</label><label for="d1-tsuru">鶴</label>
+              </div>
+            </div>
+            <div class="dial dial-2">
+              <span class="dial-title">二の輪</span>
+              <span class="dial-face"><span class="k k-matsu">松</span><span class="k k-take">竹</span><span class="k k-ume">梅</span><span class="k k-tsuru">鶴</span></span>
+              <div class="dial-opts">
+                <label for="d2-matsu">松</label><label for="d2-take">竹</label><label for="d2-ume">梅</label><label for="d2-tsuru">鶴</label>
+              </div>
+            </div>
+            <div class="dial dial-3">
+              <span class="dial-title">三の輪</span>
+              <span class="dial-face"><span class="k k-matsu">松</span><span class="k k-take">竹</span><span class="k k-ume">梅</span><span class="k k-tsuru">鶴</span></span>
+              <div class="dial-opts">
+                <label for="d3-matsu">松</label><label for="d3-take">竹</label><label for="d3-ume">梅</label><label for="d3-tsuru">鶴</label>
+              </div>
+            </div>
+          </div>
+          <p class="caption">三つの輪を正しい家紋に合わせると蓋が開きます。三つの印は、三つのからくりが知っています。</p>
         </section>
       </div>
     </div>
