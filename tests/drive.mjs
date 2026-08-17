@@ -169,6 +169,21 @@ check("T-080 reduced-motion で歯車静止", gearRM === "none", `got ${gearRM}`
 check("T-080 reduced-motion でししおどし静止", shishiRM === "none", `got ${shishiRM}`);
 await rmPage.close();
 
+// ---- T-070: フッタ 5 リンク(F-08)
+const FOOTER_LINKS = [
+  ["GitHub", "https://github.com/twill3c/karakuri-hako"],
+  ["karakuri-hako の遊び方", "https://claude.ai/code/artifact/8c33638b-a20e-44ae-9770-273856e77359"],
+  ["karakuri-hako 設計図", "https://claude.ai/code/artifact/502b5832-4c37-4210-8f73-9f35655b7788"],
+  ["App Menu", "https://app-menu-amber.vercel.app/"],
+];
+const footerText = (await page.locator("#footer").textContent()) || "";
+check("T-070 MIT License 表記", footerText.includes("MIT License © 2026 坂田哲朗"));
+for (const [label, href] of FOOTER_LINKS) {
+  const a = page.locator(`#footer a:has-text("${label}")`);
+  const actual = (await a.count()) > 0 ? await a.first().getAttribute("href") : null;
+  check(`T-070 リンク「${label}」`, actual === href, `href=${actual}`);
+}
+
 // ---- T-090: 外部通信ゼロ
 check("T-090 外部リクエスト 0 件", externalRequests.length === 0, externalRequests.join(", "));
 
